@@ -1,0 +1,35 @@
+class Solution {
+public:
+    int trap(vector<int>& height) {
+        int n=height.size();
+
+        vector<int>prevsum(n);
+        prevsum[0]=-1;
+        int sum=height[0];
+        for(int i=1;i<n;i++){
+            prevsum[i]=sum;
+            sum=max(sum,height[i]);
+        }
+
+        vector<int>nextsum(n);
+        nextsum[n-1]=-1;
+        sum=height[n-1];
+        for(int i=n-2;i>=0;i--){
+            nextsum[i]=sum;
+            sum=max(sum,height[i]);
+        }
+
+        for(int i=0;i<n;i++){
+            prevsum[i]=min(prevsum[i],nextsum[i]);
+        }
+
+        int count=0;
+        for(int i=1;i<n-1;i++){
+            if(prevsum[i]>height[i]){
+                count+=(prevsum[i]-height[i]);
+            }
+        }
+        return count;
+
+    }
+};
